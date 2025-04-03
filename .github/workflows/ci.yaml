@@ -1,5 +1,10 @@
 name: Common CI
-on: [workflow_call]
+on:
+  workflow_call:
+    inputs:
+      component_name:
+        required: true
+        type: string
 jobs:
   Build:
     runs-on: self-hosted
@@ -16,10 +21,13 @@ jobs:
         uses: actions/checkout@v4
       - run: echo Tests
 
-  Deploy:
+  Dev-Deployment:
     runs-on: self-hosted
     needs: Test
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - run: echo Tests
+        with:
+          repository: vsaitejasgitorg/roboshop-helm
+      - name: Deploy
+        run: make component=${{ inputs.component_name }} env=dev
