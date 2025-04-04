@@ -5,13 +5,22 @@ on:
       component_name:
         required: true
         type: string
+      app_type:
+        required: true
+        type: string
 jobs:
   Download-Dependencies:
     runs-on: self-hosted
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - run: echo Build
+      - name: Download-Dependencies
+        run: |
+          if [ ${{inputs.app_type}} == nodejs ]; then
+            npm install
+          elif [ ${{inputs.app_type}} == maven ]; then
+            mvn package
+          fi
 
   Test:
     runs-on: self-hosted
@@ -19,4 +28,7 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - run: echo Tests
+      - run: echo Unit Tests
+        name: Unit Tests
+      - run: echo Integration Tests
+        name: Integration Tests
