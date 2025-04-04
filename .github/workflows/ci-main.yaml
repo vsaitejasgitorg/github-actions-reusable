@@ -9,7 +9,7 @@ on:
         required: true
         type: string
 jobs:
-  Download-Dependencies:
+  Download-Dependencies-Docker-Build:
     runs-on: self-hosted
     steps:
       - name: Check out repository code
@@ -21,20 +21,21 @@ jobs:
           elif [ ${{inputs.app_type}} == maven ]; then
             mvn package
           fi
+          docker build .
 
 
-  DockerBuild-n-Push:
+  Docker-Push:
     runs-on: self-hosted
-    needs: Download-Dependencies
+    needs: Download-Dependencies-Docker-Build
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Docker Build
-        run: docker build .
+        run: echo
 
   Dev-Deployment:
     runs-on: self-hosted
-    needs: DockerBuild-n-Push
+    needs: Docker-Push
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
