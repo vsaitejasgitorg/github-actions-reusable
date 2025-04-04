@@ -29,7 +29,8 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - run: echo Tests
+      - name: Docker Build
+        run: docker build .
 
   Dev-Deployment:
     runs-on: self-hosted
