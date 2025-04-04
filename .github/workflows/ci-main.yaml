@@ -49,8 +49,8 @@ jobs:
       - name: Deploy
         run: |
           export PATH=/home/github/.local/bin:/home/github/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
-          #aws eks update-kubeconfig  --name dev
-          #make component=${{ inputs.component_name }} env=dev
+          aws eks update-kubeconfig  --name dev
+          make component=${{ inputs.component_name }} env=dev imageTag=${GITHUB_SHA}
 
   QA-Deployment:
     runs-on: self-hosted
