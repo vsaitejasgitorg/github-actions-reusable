@@ -55,6 +55,7 @@ jobs:
 
   QA-Deployment:
     runs-on: self-hosted
+    environment: QA
     needs: Dev-Deployment
     steps:
       - name: Check out repository code
